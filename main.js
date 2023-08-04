@@ -123,5 +123,5 @@ const NoOfLines = getNoOfLines()
 const bet = getBalance(balance, NoOfLines)
 const reels = spin()
 const rows = transpose(reels)
-showOutput
+showOutput(rows)
  
