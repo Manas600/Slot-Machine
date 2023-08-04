@@ -111,10 +111,13 @@ const showOutput = (rows) => {
 
     for(const row of rows){
         let rowString = "| "
-        for (const [i, symbol] of row.entries)
+        for (const [i, symbol] of row.entries())
         rowString += symbol + " | "
+        
+
+        console.log(rowString)
     }
-    console.log(rowString)
+    
 }
 
 
