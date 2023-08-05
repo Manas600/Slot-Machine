@@ -56,7 +56,7 @@ const getNoOfLines = () => {
     }
 }
 
-const getBalance = (balance, lines) => {
+const getBet = (balance, lines) => {
     while (true){
 
         const bet = prompt("Enter the value to bet per line: ")
@@ -120,11 +120,65 @@ const showOutput = (rows) => {
     
 }
 
+const getWinnings = (rows, bet, lines) => {
 
-let balance =  deposit()
-const NoOfLines = getNoOfLines()
-const bet = getBalance(balance, NoOfLines)
-const reels = spin()
-const rows = transpose(reels)
-showOutput(rows)
+    let winnings = 0
+    for (let row = 0; row <lines; row++){
+        const symbols = rows[row]
+
+        let allSame = true
+
+        for (let i = 1; i < symbols.length; i++) {
+            if (symbols[i] !== symbols[0]) {
+                allSame = false;
+                break;
+            }
+        }
+
+        if(allSame){
+            winnings += bet * VAL_SYMBOLS[symbols[0]]
+        }
+    }
+
+    return winnings
+
+}
+
+
+const game = () => {
+    let balance =  deposit()
+
+    while(true){
+        
+        const NoOfLines = getNoOfLines()
+        const bet = getBet(balance, NoOfLines)
+        balance -= bet*NoOfLines
+        const reels = spin()
+        const rows = transpose(reels)
+        showOutput(rows)
+        const winnings = getWinnings(rows, bet, NoOfLines)
+        balance += winnings
+        console.log(`You won ${winnings}`)
+        console.log(`You have ${balance} left`)
+        
+        if(balance <= 0){
+            console.log("You have no balance left. Exiting ...")
+            break
+        }
+
+        let yesNo = prompt(console.log("Do you want to continue? (y/n)"))
+        const final_yesNo = yesNo.toUpperCase()
+        if(final_yesNo == "N"){
+            console.log("Exiting ...")
+            break
+        }
+    }
+    
+}
+
+
+game();
+
+
+
  
